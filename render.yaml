@@ -1,0 +1,32 @@
+# Vendure on Render (free) — Blueprint
+# Put this file at the root of the GitHub repo (repo root = vendure-shop's parent).
+# The Blueprint creates one free web service; the database comes from Neon
+# (free Postgres, no expiry) — paste its connection string as DATABASE_URL.
+services:
+  - type: web
+    name: vendure-server
+    runtime: node
+    plan: free
+    rootDir: vendure-shop
+    buildCommand: npm install && npm run build
+    # Server only. The worker (job queue: emails etc.) needs a second service
+    # running `node ./dist/index-worker.js`; on the free tier, add it later
+    # when orders/emails matter. Search indexing is synchronous, so the shop
+    # itself works without the worker.
+    startCommand: node ./dist/index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Neon free Postgres connection string (sslmode=require)
+      - key: COOKIE_SECRET
+        generateValue: true
+      - key: SUPERADMIN_USERNAME
+        sync: false
+      - key: SUPERADMIN_PASSWORD
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false # e.g. https://your-storefront.com
+      - key: ASSET_URL_PREFIX
+        sync: false # e.g. https://vendure-server.onrender.com/assets/
