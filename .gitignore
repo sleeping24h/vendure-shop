@@ -9,3 +9,5 @@ static/email/test-emails
 .env
 .env.*
 !.env.example
+vendure.sqlite
+.env
