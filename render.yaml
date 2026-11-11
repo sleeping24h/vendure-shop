@@ -8,7 +8,7 @@ services:
     runtime: node
     plan: free
     rootDir: .
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     # Server only. The worker (job queue: emails etc.) needs a second service
     # running `node ./dist/index-worker.js`; on the free tier, add it later
     # when orders/emails matter. Search indexing is synchronous, so the shop
