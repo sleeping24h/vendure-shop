@@ -7,7 +7,7 @@ services:
     name: vendure-server
     runtime: node
     plan: free
-    rootDir: vendure-shop
+    rootDir: .
     buildCommand: npm install && npm run build
     # Server only. The worker (job queue: emails etc.) needs a second service
     # running `node ./dist/index-worker.js`; on the free tier, add it later
